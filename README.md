@@ -4,9 +4,21 @@ Multipass is an easy-to-spin and easy-to-use tool for creating and using develop
 
 Multipass basically continues where Vagrant left, and we will show how and why multipass can help you being more productive, using it in development and testing.
 
+### A cloud on your workstation
+
 ![](res/img/arch-overview.png)
 
 https://multipass.run
+
+### Goodbye snowflakes
+
+Similar setups possible:
+
+![](res/img/dev-overview-01.png)
+
+Multiple setups possible:
+
+![](res/img/dev-overview-02.png)
 
 ## Background
 
