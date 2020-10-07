@@ -55,6 +55,7 @@ log 'info' "${VM_NAME} on multipass demo"
 # remove id in case vm is newly created
 ssh-keygen -f "$HOME/.ssh/known_hosts" -R "$VM_NAME.multipass" >/dev/null 2>&1
 
+# TODO: externalise
 multipass launch --name "${VM_NAME}" --mem "${VM_MEM}" --disk "${VM_DISK}" "${VM_IMAGE}" --cloud-init - 2>/dev/null <<'EOF' && {
 #cloud-config
 users:
@@ -64,7 +65,7 @@ users:
   - $(cat "${SSH_ID_FILE}")
 #manage_resolv_conf: true
 resolv_conf:
-  nameservers: ['127.0.0.1', '127.0.0.53', '10.0.1.99', '10.0.0.99']
+  nameservers: ['127.0.0.1', '127.0.0.53']
   searchdomains:
     - multipass
     - local
@@ -96,7 +97,7 @@ runcmd:
   - snap install docker
   - snap install lxd
 bootcmd:
-  - echo '10.0.1.61 ds ds.local' | tee -a /etc/host
+  - echo '127.0.0.53 dns' | tee -a /etc/host
 EOF
 
   multipass exec "${VM_NAME}" -- sh -c 'DEBIAN_FRONTEND=noninteractive sudo dpkg --configure -a'
@@ -114,12 +115,13 @@ multipass mount -u "$(id -u)":1001 -g "$(id -g)":1001 "${HOME}/.config" "${VM_NA
 multipass mount -u "$(id -u)":1001 -g "$(id -g)":1001 "${HOME}/Repositories" "${VM_NAME}":/home/ubuntu/Repositories || true
 multipass mount -u "$(id -u)":1001 -g "$(id -g)":1001 "${HOME}/.vscode" "${VM_NAME}":/home/ubuntu/.vscode || true
 multipass mount -u "$(id -u)":1001 -g "$(id -g)":1001 "${HOME}/.vscode-server/extensions" "${VM_NAME}":/home/ubuntu/.vscode-server/extensions || true
+# TODO: mount multipass cloud image folder
 
 #multipass mount -u "$(id -u)":1001 -g "$(id -g)":1001 "${HOME}" "${VM_NAME}:/home/$(basename "$HOME")" || true
 
 # setup dotfiles
 # TODO: less specific
-multipass exec "${VM_NAME}" -- bash -c 'if [[ -f ~/bin/setup-dirs-config.sh ]]; then ~/bin/setup-dirs-config.sh; fi'
+#multipass exec "${VM_NAME}" -- bash -c 'if [[ -f ~/bin/setup-dirs-config.sh ]]; then ~/bin/setup-dirs-config.sh; fi'
 
 # multipass ssh key in
 # /var/snap/multipass/common/data/multipassd/ssh-keys or
