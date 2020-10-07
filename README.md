@@ -22,10 +22,21 @@ Multiple setups possible:
 
 ## Background
 
+### Multipass
+
 - https://multipass.run/
 - https://multipass.run/docs
 - https://discourse.ubuntu.com/c/multipass
 - https://github.com/canonical/multipass
+
+### VS Code Remote Dev
+
+- https://code.visualstudio.com/docs/remote/remote-overview
+
+### VS Code Remote Server
+
+- https://coder.com/
+- https://github.com/cdr/code-server
 
 ## Demo Repo
 
